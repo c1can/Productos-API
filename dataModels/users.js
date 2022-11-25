@@ -3,7 +3,7 @@ const User = (name, email, password) => {
         name, email, password
     }
 
-    return user;
+    return user
 }
 
 module.exports = {User}

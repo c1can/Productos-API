@@ -1,5 +1,7 @@
 const auth = require('../middlewares/auth')
 const controller = require('../controllers/userController')
+const productsController = require('../controllers/productController')
+const data = require('../data/data')
 
 
 const routes = (app) => {
@@ -14,6 +16,14 @@ const routes = (app) => {
 
     app.get('/', auth, (req, res) => {
         res.status(200).send('bienvenido')
+    })
+
+    app.get('/productos', auth, (req, res) => {
+        res.status(200).json(data)
+    })
+
+    app.post('/productos', auth, (req, res) => {
+        return productsController.addProduct(req, res)
     })
 
     app.use(auth,(req, res) => {
