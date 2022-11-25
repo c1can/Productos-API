@@ -31,7 +31,6 @@ const register = async (req, res) => {
         newUser = usersData.User(name, email, encryptPassword)
 
         users = [...users, newUser]
-        users.concat(newUser)
     
     } catch (error) {
         console.log(error)
@@ -51,7 +50,6 @@ const login = async (req, res) => {
         }
         
         const user = users.find(usr => usr.email === email)
-        console.log(users)
 
         if(user && (await bcrypt.compare(password, user.password))) {
             const token = jwt.sign({email}, process.env.KEY, {expiresIn: '2h'})
