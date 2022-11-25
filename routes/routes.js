@@ -15,6 +15,12 @@ const routes = (app) => {
     app.get('/', auth, (req, res) => {
         res.status(200).send('bienvenido')
     })
+
+    app.use(auth,(req, res) => {
+        res.status(404).json({
+            error: 'error'
+        })
+    })
 }
 
 
