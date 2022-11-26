@@ -22,7 +22,6 @@ const addProduct = (req, res) => {
 
 const deleteProduct = (req, res) => {
     const { id }= req.params
-    console.log(+id)
 
     const filteredArr = objProduct.productos.filter(product => product.id === +id)
 

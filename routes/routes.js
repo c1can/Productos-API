@@ -22,6 +22,10 @@ const routes = (app) => {
         res.status(200).json(data)
     })
 
+    app.get('/productos:id', auth, (req, res) => {
+        return productsController.getId(req, res)
+    })
+
     app.post('/productos', auth, (req, res) => {
         return productsController.addProduct(req, res)
     })
