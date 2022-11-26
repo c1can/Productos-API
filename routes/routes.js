@@ -26,6 +26,10 @@ const routes = (app) => {
         return productsController.addProduct(req, res)
     })
 
+    app.delete('/productos/:id', auth, (req, res) => {
+        return productsController.deleteProduct(req, res)
+    })
+
     app.use(auth,(req, res) => {
         res.status(404).json({
             error: 'error'
