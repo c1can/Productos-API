@@ -6,6 +6,10 @@ const addProduct = (req, res) => {
     const content = req.body
     const {marca, nombre, precio, idProducto, stock} = content
 
+    if(!(marca && nombre && precio && idProducto && stock)) {
+        res.status(400).send('Ingresa todos los datos requeridos')
+    }
+
     const ids = objProduct.productos.map(product => product.id)
     const maxId = Math.max(...ids)
 
@@ -15,7 +19,5 @@ const addProduct = (req, res) => {
 
     res.status(301).json(newProduct)
 }
-
-//todo agregar validacion si el usuario no agrega un producto
 
 module.exports = {addProduct}
