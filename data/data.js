@@ -18,6 +18,16 @@ let productos = [
             idProducto: 355,
             stock: false
         }
+    },
+    {
+        id: 3, 
+        marca: 'Puma',
+        producto: {
+            nombre: 'sudadera',
+            precio: 'Q350',
+            idProducto: 255,
+            stock: true
+        }
     }
 ]
 
