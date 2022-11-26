@@ -25,12 +25,10 @@ const deleteProduct = (req, res) => {
 
     const filteredArr = objProduct.productos.filter(product => product.id === +id)
 
-    if(filteredArr.length === 0) {
-        res.status(400).send('id no encontrado')
-    }
+    filteredArr.length === 0 && res.status(400).send('id no encontrado')
 
     objProduct.productos = objProduct.productos.filter(product => product.id !== +id)
-    res.status(201).send(`Producto no. ${+id} eliminados`)
+    res.status(201).send(`Producto no. ${+id} eliminado`)
 }
 
 module.exports = {addProduct, deleteProduct}
