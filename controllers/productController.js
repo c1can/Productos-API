@@ -2,6 +2,16 @@ const objProduct = require('../data/data')
 const model = require('../dataModels/productModel')
 
 
+
+const getId = (req, res) => {
+    const {id} = req.params
+
+    const filteredProduct = objProduct.productos.filter(product => product.id === +id)
+
+    res.status(200).json(filteredProduct)
+
+}
+
 const addProduct = (req, res) => {
     const content = req.body
     const {marca, nombre, precio, idProducto, stock} = content
@@ -17,7 +27,7 @@ const addProduct = (req, res) => {
 
     objProduct.productos = [...objProduct.productos, newProduct]
 
-    res.status(301).json(newProduct)
+    res.status(301).send('Producto correctamente agregado')
 }
 
 const deleteProduct = (req, res) => {
@@ -31,4 +41,4 @@ const deleteProduct = (req, res) => {
     res.status(201).send(`Producto no. ${+id} eliminado`)
 }
 
-module.exports = {addProduct, deleteProduct}
+module.exports = {addProduct, deleteProduct, getId}
