@@ -235,6 +235,9 @@ const routes = (app) => {
  *      - name: x-access-token
  *        in: header
  *        required: true
+ *      - name: id
+ *        in: path
+ *        required: true
  *    responses: 
  *      200: 
  *        description: Devulve un mensaje de exito y elimina el producto 
@@ -246,6 +249,41 @@ const routes = (app) => {
  */
 
     app.put('/productos/:id', auth, updateProduct)
+    /**
+ * @openapi
+ * /productos/{id}:
+ *  put:
+ *   summary: Editar un producto
+ *   requestBody: 
+ *      required: true
+ *      content: 
+ *        application/json:
+ *          schema:
+ *             type: object
+ *             properties:
+ *                marca: 
+ *                   type: string
+ *                nombre: 
+ *                   type: string
+ *                precio: 
+ *                   type: string
+ *                stock: 
+ *                   type: boolean
+ *   parameters: 
+ *    - name: x-access-token
+ *      in: header
+ *      required: true
+ *    - name: id
+ *      in: path
+ *      required: true 
+ *   responses: 
+ *    200: 
+ *     content:
+ *       text/plain: 
+ *          schema:
+ *             type: string
+ *             example: Producto correctamente editado!  
+ */
     app.use((req, res) => {
         res.status(404).json({
             error: 'error'

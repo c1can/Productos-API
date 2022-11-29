@@ -62,7 +62,7 @@ const updateProduct = (req, res) => {
                 producto: {
                     nombre: nombre || product.producto.nombre,
                     precio: precio || product.producto.precio,
-                    stock: stock || product.producto.stock /////fiiiiiiiiiiiix
+                    stock: stock || product.producto.stock 
                 }
             }
         }else {
@@ -72,7 +72,7 @@ const updateProduct = (req, res) => {
 
     objProduct.productos = edited
 
-    res.status(200).json(edited)
+    res.status(200).send('Producto editado')
 
 }
 
