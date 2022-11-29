@@ -40,4 +40,40 @@ const deleteProduct = (req, res) => {
     res.status(201).send(`Producto no. ${+id} eliminado`)
 }
 
-module.exports = {addProduct, deleteProduct, getId}
+const updateProduct = (req, res) => {
+    const {id} = req.params
+    const content = req.body
+    const { marca, nombre, precio, stock} = content
+    const match = objProduct.productos.find(product => product.id === +id)
+    console.log(id)
+    if(!match) {
+        res.status(400).send('producto no encontrado')
+    }
+    
+    if(!(marca || nombre || precio || stock)) {
+        res.status(400).send('Debes actualizar al menos un dato!')
+    }
+
+    const edited = objProduct.productos.map(product => {
+        if(product.id === +id) {
+            return {
+                ...product,
+                marca: marca || product.marca,
+                producto: {
+                    nombre: nombre || product.producto.nombre,
+                    precio: precio || product.producto.precio,
+                    stock: stock || product.producto.stock /////fiiiiiiiiiiiix
+                }
+            }
+        }else {
+            return product
+        }
+    })
+
+    objProduct.productos = edited
+
+    res.status(200).json(edited)
+
+}
+
+module.exports = {addProduct, deleteProduct, getId, updateProduct}

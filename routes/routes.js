@@ -1,6 +1,6 @@
 const auth = require('../middlewares/auth')
 const { login, register } = require('../controllers/userController')
-const {getId, addProduct, deleteProduct} = require('../controllers/productController')
+const {getId, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
 const data = require('../data/data')
 
 const routes = (app) => {
@@ -244,6 +244,8 @@ const routes = (app) => {
  *               type: string
  *               example: Tarea eliminada!
  */
+
+    app.put('/productos/:id', auth, updateProduct)
     app.use((req, res) => {
         res.status(404).json({
             error: 'error'
