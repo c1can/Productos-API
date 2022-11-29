@@ -191,7 +191,59 @@ const routes = (app) => {
  *                       
  */
     app.post('/productos', auth, addProduct)
+    /**
+ * @openapi
+ * /productos:
+ *  post:
+ *    summary: Añadir productos
+ *    requestBody: 
+ *      required: true
+ *      content: 
+ *          application/json:
+ *           schema: 
+ *              type: object
+ *              properties:
+ *                  marca: 
+ *                     type: string
+ *                  nombre: 
+ *                     type: string
+ *                  precio: 
+ *                     type: string
+ *                  stock:
+ *                     type: boolean
+ *    parameters: 
+ *      - name: x-access-token
+ *        in: header
+ *        description: Agrega tu token
+ *        required: true
+ *    responses: 
+ *      200: 
+ *        description: Devuelve un mensaje de exito y añade el producto
+ *        content: 
+ *          text/plain:
+ *            schema: 
+ *              type: string
+ *              example: Tarea añadida!
+ */
     app.delete('/productos/:id', auth, deleteProduct)
+    /**
+ * @openapi
+ * /productos/{id}:
+ *  delete: 
+ *    summary: Eliminar un producto
+ *    parameters: 
+ *      - name: x-access-token
+ *        in: header
+ *        required: true
+ *    responses: 
+ *      200: 
+ *        description: Devulve un mensaje de exito y elimina el producto 
+ *        content: 
+ *          text/plain: 
+ *             schema: 
+ *               type: string
+ *               example: Tarea eliminada!
+ */
     app.use((req, res) => {
         res.status(404).json({
             error: 'error'
