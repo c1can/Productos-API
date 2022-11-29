@@ -54,7 +54,7 @@ const login = async (req, res) => {
         if(user && (await bcrypt.compare(password, user.password))) {
             const token = jwt.sign({email}, process.env.KEY, {expiresIn: '2h'})
             user.token = token // crea una propiedad token y le agrega el token
-            res.status(200).json(user)
+            res.status(200).json({token: token})
         }else {
             res.status(403).send('credenciales invalidas')
         }

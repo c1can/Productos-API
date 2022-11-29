@@ -1,33 +1,198 @@
 const auth = require('../middlewares/auth')
-const controller = require('../controllers/userController')
-const productsController = require('../controllers/productController')
+const { login, register } = require('../controllers/userController')
+const {getId, addProduct, deleteProduct} = require('../controllers/productController')
 const data = require('../data/data')
 
-
 const routes = (app) => {
-    
-    app.post('/login', (req, res) => {
-        return controller.login(req, res)
-    })
-    app.post('/register', (req, res) => {
-        return controller.register(req, res)
-    })
-    app.get('/', auth, (req, res) => {
-        res.status(200).send('bienvenido')
-    })
-    app.get('/productos', auth, (req, res) => {
-        res.status(200).json(data)
-    })
-    app.get('/productos/:id', auth, (req, res) => {
-        return productsController.getId(req, res)
-    })
-    app.post('/productos', auth, (req, res) => {
-        return productsController.addProduct(req, res)
-    })
-    app.delete('/productos/:id', auth, (req, res) => {
-        return productsController.deleteProduct(req, res)
-    })
-    app.use(auth,(req, res) => {
+    /**
+ * @openapi
+ * components:
+ *  schemas:
+ *      item:
+ *          type: object
+ *          properties:
+ *              id:
+ *               type: number
+ *              marca:
+ *               type: string
+ *              producto: 
+ *               type: object
+ *               properties:
+ *                nombre:
+ *                 type: string
+ *                precio: 
+ *                 type: string
+ *                idProducto:
+ *                 type: string
+ *                stock:
+ *                 type: boolean  
+ *                        
+ * 
+ */
+
+    app.post('/register', register)
+    /**
+ * @openapi
+ * /register:
+ *  post: 
+ *   summary: Registra un nuevo usuario
+ *   requestBody:
+ *      required: true
+ *      content: 
+ *          application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      name:
+ *                        type: string
+ *                      email: 
+ *                        type: string
+ *                      password: 
+ *                        type: string    
+ *   responses: 
+ *      201: 
+ *       description: Retorna tu usuario creado
+ *       content:
+ *          application/json:
+ *              schema:
+ *                  type: object
+ *                  properties: 
+ *                      name:
+ *                        type: string
+ *                      email:
+ *                        type: string
+ *                      password: 
+ *                        type: string    
+ *                   
+ *      400: 
+ *       description: Ingresa todos los datos requeridos
+ *       content: 
+ *          text/plain:
+ *              schema: 
+ *                  type: string
+ *                  example: Ingresa tus datos!  
+ *      404: 
+ *       description: Usuario ya registrado
+ *       content: 
+ *          text/plain:
+ *             schema: 
+ *              type: string
+ *              example: Usuario ya registrado!      
+ */
+    app.post('/login', login)
+    /**
+ * @openapi
+ * /login:
+ *  post:
+ *   summary: Iniciar sesion con un usuario ya registrado.
+ *   requestBody: 
+ *      required: true
+ *      content:
+ *          application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      email: 
+ *                       type: string
+ *                      password: 
+ *                       type: string
+ *   responses: 
+ *      200: 
+ *        description: Retorna un token  
+ *        content: 
+ *          text/plain:
+ *              schema:
+ *                  type: object
+ *                  properties: 
+ *                      token:
+ *                        type: string
+ *                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"        
+ *      404: 
+ *        description: Devuelve un mensaje de error si no ingresas nada  
+ *        content: 
+ *          text/plain: 
+ *              schema: 
+ *                type: string
+ *                example: Ingresa tu email y contraseña! 
+ *      403: 
+ *        description: Credenciales invalidas
+ *        content: 
+ *          text/plain: 
+ *              schema: 
+ *                  type: string
+ *                  example: Contraseña o usuario incorrecto! 
+ */
+    app.get('/', (req, res) => res.status(200).send('Bienvenido'))
+    /**
+ * @openapi
+ * /:
+ *  get:
+ *   summary: Mensaje de bienvenida
+ *   responses: 
+ *      200: 
+ *       description: Devuelve mensaje de bienvenida
+ *       content: 
+ *          text/plain:
+ *              schema: 
+ *                  type: string
+ *                  example: Bienvenido! 
+ */
+    app.get('/productos', auth, (req, res) => res.status(200).json(data))
+    /**
+ * @openapi
+ * /productos:
+ *  get:
+ *   summary: Todos los productos
+ *   parameters: 
+ *      - in: header
+ *        name: x-access-token
+ *        schema: 
+ *          type: string
+ *        required: true  
+ *   responses:
+ *      200:
+ *       description: Retorna array de productos
+ *       content: 
+ *          application/json:
+ *              schema:
+ *                  type: array
+ *                  items:
+ *                     $ref: '#components/schemas/item'
+ */
+
+    app.get('/productos/:id', auth,  getId)
+    /**
+ * @openapi
+ * /productos/{id}:
+ *  get:
+ *   summary: Devuelve un producto segun dado el id
+ *   parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: Agrega un id
+ *        schema:
+ *          type: integer
+ *      - name: x-access-token
+ *        in: header
+ *        schema: 
+ *          type: string
+ *        description: Ingresa tu token!
+ *        required: true
+ *   responses: 
+ *      200: 
+ *       description: Devulve el producto con el id encontrado
+ *       content: 
+ *          application/json: 
+ *            schema: 
+ *              type: array
+ *              items:
+ *               $ref: '#components/schemas/item'
+ *                       
+ */
+    app.post('/productos', auth, addProduct)
+    app.delete('/productos/:id', auth, deleteProduct)
+    app.use((req, res) => {
         res.status(404).json({
             error: 'error'
         })

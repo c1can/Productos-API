@@ -1,11 +1,14 @@
-const productModel = (id, marca, nombre, precio, idProducto, stock) => {
+const { v4: uuid } = require('uuid')
+
+
+const productModel = (id, marca, nombre, precio, stock) => {
     const mainModel = {
         id: id,
         marca: marca,
         producto: {
             nombre: nombre,
             precio: precio,
-            idProducto: idProducto,
+            idProducto: uuid(),
             stock: stock
         }
     }

@@ -1,3 +1,5 @@
+const { v4 :  uuid } = require('uuid')
+
 let productos = [
     {
         id: 1,
@@ -5,7 +7,7 @@ let productos = [
         producto: {
             nombre: 'pantalon',
             precio: 'Q300',
-            idProducto: 343,
+            idProducto: uuid(),
             stock: true
         }
     },
@@ -15,7 +17,7 @@ let productos = [
         producto: {
             nombre: 'Air Force 1',
             precio: 'Q700',
-            idProducto: 355,
+            idProducto: uuid(),
             stock: false
         }
     },
@@ -25,7 +27,7 @@ let productos = [
         producto: {
             nombre: 'sudadera',
             precio: 'Q350',
-            idProducto: 255,
+            idProducto: uuid(),
             stock: true
         }
     }

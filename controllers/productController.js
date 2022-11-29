@@ -5,7 +5,6 @@ const model = require('../dataModels/productModel')
 
 const getId = (req, res) => {
     const {id} = req.params
-
     const filteredProduct = objProduct.productos.filter(product => product.id === +id)
 
     res.status(200).json(filteredProduct)
@@ -14,16 +13,16 @@ const getId = (req, res) => {
 
 const addProduct = (req, res) => {
     const content = req.body
-    const {marca, nombre, precio, idProducto, stock} = content
+    const {marca, nombre, precio, stock} = content
 
-    if(!(marca && nombre && precio && idProducto && stock)) {
-        res.status(400).send('Ingresa todos los datos requeridos')
+    if(!(marca && nombre && precio && stock)) {
+        return  res.status(400).send('Ingresa todos los datos requeridos')
     }
 
     const ids = objProduct.productos.map(product => product.id)
     const maxId = Math.max(...ids)
 
-    const newProduct = model.productModel(maxId + 1, marca, nombre, precio, idProducto, stock)
+    const newProduct = model.productModel(maxId + 1, marca, nombre, precio, stock)
 
     objProduct.productos = [...objProduct.productos, newProduct]
 
