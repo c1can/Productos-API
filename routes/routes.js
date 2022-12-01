@@ -30,32 +30,6 @@ const routes = (app) => {
  */
 
 
-    /**
- * @openapi
- * components:
- *  schemas:
- *      item:
- *          type: object
- *          properties:
- *              id:
- *               type: number
- *              marca:
- *               type: string
- *              producto: 
- *               type: object
- *               properties:
- *                nombre:
- *                 type: string
- *                precio: 
- *                 type: string
- *                idProducto:
- *                 type: string
- *                stock:
- *                 type: boolean  
- *                        
- * 
- */
-
     app.post('/register', register)
     /**
  * @openapi
