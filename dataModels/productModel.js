@@ -1,19 +1,14 @@
-const { v4: uuid } = require('uuid')
-
-
-const productModel = (id, marca, nombre, precio, stock) => {
-    const mainModel = {
+const productModel = (id, producto, marca, linea, precio, stock) =>{
+    const model = {
         id: id,
+        producto: producto,
         marca: marca,
-        producto: {
-            nombre: nombre,
-            precio: precio,
-            idProducto: uuid(),
-            stock: stock
-        }
+        linea: linea,
+        precio: precio,
+        stock: stock,
+        eliminado: false
     }
-
-    return mainModel
+    return model
 }
 
 module.exports = {productModel}

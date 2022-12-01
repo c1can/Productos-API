@@ -1,9 +1,35 @@
 const auth = require('../middlewares/auth')
 const { login, register } = require('../controllers/userController')
 const {getId, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
-const data = require('../data/data')
+const productos = require('../data/productos')
 
 const routes = (app) => {
+
+    /**
+ * @openapi
+ * components: 
+ *    schemas: 
+ *       productos:
+ *          type: object
+ *          properties:
+ *             id:
+ *              type: number
+ *             producto:
+ *              type: string
+ *             marca: 
+ *              type: number
+ *             linea:
+ *              type: number
+ *             precio:
+ *              type: number
+ *             stock: 
+ *              type: number
+ *             eliminado: 
+ *              type: boolean 
+ *    
+ */
+
+
     /**
  * @openapi
  * components:
@@ -137,7 +163,7 @@ const routes = (app) => {
  *                  type: string
  *                  example: Bienvenido! 
  */
-    app.get('/productos', auth, (req, res) => res.status(200).json(data))
+    app.get('/productos', auth, (req, res) => res.status(200).json(productos))
     /**
  * @openapi
  * /productos:
@@ -157,7 +183,7 @@ const routes = (app) => {
  *              schema:
  *                  type: array
  *                  items:
- *                     $ref: '#components/schemas/item'
+ *                     $ref: '#components/schemas/productos'
  */
 
     app.get('/productos/:id', auth,  getId)
@@ -184,10 +210,17 @@ const routes = (app) => {
  *       description: Devulve el producto con el id encontrado
  *       content: 
  *          application/json: 
- *            schema: 
- *              type: array
- *              items:
- *               $ref: '#components/schemas/item'
+ *            schema:
+ *               $ref: '#components/schemas/productos'
+ *      404: 
+ *       description: Mensaje de error al no encontrar el producto
+ *       content: 
+ *          application/json:
+ *             schema: 
+ *                type: object
+ *                properties:
+ *                   error:
+ *                      type: string
  *                       
  */
     app.post('/productos', auth, addProduct)
@@ -203,27 +236,36 @@ const routes = (app) => {
  *           schema: 
  *              type: object
  *              properties:
+ *                  producto: 
+ *                      type: string
  *                  marca: 
- *                     type: string
- *                  nombre: 
- *                     type: string
+ *                     type: number
+ *                  linea:
+ *                      type: number 
  *                  precio: 
- *                     type: string
+ *                     type: number
  *                  stock:
- *                     type: boolean
+ *                     type: number
  *    parameters: 
  *      - name: x-access-token
  *        in: header
  *        description: Agrega tu token
  *        required: true
  *    responses: 
- *      200: 
+ *      301: 
  *        description: Devuelve un mensaje de exito y añade el producto
  *        content: 
  *          text/plain:
  *            schema: 
  *              type: string
  *              example: Tarea añadida!
+ *      400: 
+ *        description: Mensaje de error
+ *        content: 
+ *          text/plain: 
+ *             schema:
+ *                type: string
+ *                example: No valido!
  */
     app.delete('/productos/:id', auth, deleteProduct)
     /**
@@ -239,13 +281,20 @@ const routes = (app) => {
  *        in: path
  *        required: true
  *    responses: 
- *      200: 
+ *      201: 
  *        description: Devulve un mensaje de exito y elimina el producto 
  *        content: 
  *          text/plain: 
  *             schema: 
  *               type: string
  *               example: Tarea eliminada!
+ *      400: 
+ *       description: Mensaje de error
+ *       content:
+ *          text/plain:
+ *             schema: 
+ *                type: string
+ *                example: Tarea no encontrada :(
  */
 
     app.put('/productos/:id', auth, updateProduct)
@@ -261,14 +310,16 @@ const routes = (app) => {
  *          schema:
  *             type: object
  *             properties:
+ *                producto:
+ *                   type: string
  *                marca: 
- *                   type: string
- *                nombre: 
- *                   type: string
+ *                   type: number
+ *                linea: 
+ *                   type: number
  *                precio: 
- *                   type: string
+ *                   type: number
  *                stock: 
- *                   type: boolean
+ *                   type: number
  *   parameters: 
  *    - name: x-access-token
  *      in: header
@@ -283,6 +334,12 @@ const routes = (app) => {
  *          schema:
  *             type: string
  *             example: Producto correctamente editado!  
+ *    400: 
+ *      content: 
+ *         text/plain: 
+ *             schema: 
+ *                type: string
+ *                example: Error!
  */
     app.use((req, res) => {
         res.status(404).json({

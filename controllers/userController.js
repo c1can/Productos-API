@@ -9,22 +9,22 @@ let users = []
 const register = async (req, res) => {
     try {
     //no hay nada
-        if (!req.body) {
-            res.status(400).send('Ingresa tu nombre, email y password')
+        if (JSON.stringify(req.body) === '{}') {
+            return res.status(400).send('Ingresa tu nombre, email y password')
         }
 
         const { name, email, password } = req.body
 
         //si no se pasa una
         if (!(name && email && password)) {
-            res.status(400).send('Ingresa todos los datos requeridos!')
+            return res.status(400).send('Ingresa todos los datos requeridos!')
         }
 
         const userExists = users.find((user) => user.email === email)
 
         //si el registro ya existe
         if (userExists) {
-            res.status(404).send('Usuario ya existente')
+            return res.status(404).send('Usuario ya existente')
         }
 
         const encryptPassword = await bcrypt.hash(password, 10)
@@ -46,7 +46,7 @@ const login = async (req, res) => {
         const {email, password} = req.body
 
         if(!(email && password)) {
-            res.status(404).send('Ingresa tu email y contraseña!')
+            return res.status(404).send('Ingresa tu email y contraseña!')
         }
         
         const user = users.find(usr => usr.email === email)
