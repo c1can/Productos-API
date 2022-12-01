@@ -35,6 +35,8 @@ const routes = (app) => {
  * @openapi
  * /register:
  *  post: 
+ *   tags: 
+ *    - Register:
  *   summary: Registra un nuevo usuario
  *   requestBody:
  *      required: true
@@ -84,6 +86,8 @@ const routes = (app) => {
  * @openapi
  * /login:
  *  post:
+ *   tags: 
+ *    - Register:
  *   summary: Iniciar sesion con un usuario ya registrado.
  *   requestBody: 
  *      required: true
@@ -127,6 +131,8 @@ const routes = (app) => {
  * @openapi
  * /:
  *  get:
+ *   tags: 
+ *    - Home:
  *   summary: Mensaje de bienvenida
  *   responses: 
  *      200: 
@@ -142,6 +148,8 @@ const routes = (app) => {
  * @openapi
  * /productos:
  *  get:
+ *   tags:
+ *    - Productos:
  *   summary: Todos los productos
  *   parameters: 
  *      - in: header
@@ -165,6 +173,8 @@ const routes = (app) => {
  * @openapi
  * /productos/{id}:
  *  get:
+ *   tags:
+ *    - Productos:
  *   summary: Devuelve un producto segun dado el id
  *   parameters:
  *      - name: id
@@ -202,6 +212,8 @@ const routes = (app) => {
  * @openapi
  * /productos:
  *  post:
+ *    tags: 
+ *      - Productos:
  *    summary: Añadir productos
  *    requestBody: 
  *      required: true
@@ -246,6 +258,8 @@ const routes = (app) => {
  * @openapi
  * /productos/{id}:
  *  delete: 
+ *    tags: 
+ *     - Productos:
  *    summary: Eliminar un producto
  *    parameters: 
  *      - name: x-access-token
@@ -276,6 +290,8 @@ const routes = (app) => {
  * @openapi
  * /productos/{id}:
  *  put:
+ *   tags: 
+ *    - Productos:
  *   summary: Editar un producto
  *   requestBody: 
  *      required: true
