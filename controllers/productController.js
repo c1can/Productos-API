@@ -38,7 +38,7 @@ const deleteProduct = (req, res) => {
 
     const filteredArr = obj.productos.filter(product => product.id === +id)
 
-    filteredArr.length === 0 && res.status(400).send('id no encontrado')
+    if(filteredArr.length === 0) return res.status(400).send('id no encontrado')
 
     const softDelete = obj.productos.map(producto => {
         if(producto.id === +id) {
