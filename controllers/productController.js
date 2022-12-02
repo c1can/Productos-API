@@ -3,12 +3,12 @@ const { productModel } = require('../dataModels/productModel')
 
 
 
-const getId = (req, res) => {
+const getId = (req, res, arr) => {
     const {id} = req.params
-    const filteredProduct = obj.productos.find(product => product.id === +id)
+    const filteredProduct = arr.find(product => product.id === +id)
     if(!filteredProduct) {
         return res.status(404).json({
-            error: 'producto no encontrado'
+            error: 'no encontrado'
         })
     }
     res.status(200).json(filteredProduct)

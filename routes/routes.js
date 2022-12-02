@@ -2,7 +2,7 @@ const auth = require('../middlewares/auth')
 const { login, register } = require('../controllers/userController')
 const {getId, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
 const productos = require('../data/productos')
-
+const marcas = require('../data/marcas')
 const routes = (app) => {
 
     /**
@@ -23,6 +23,22 @@ const routes = (app) => {
  *             precio:
  *              type: number
  *             stock: 
+ *              type: number
+ *             eliminado: 
+ *              type: boolean 
+ *    
+ */
+
+    /**
+ * @openapi
+ * components: 
+ *    schemas: 
+ *       marcas:
+ *          type: object
+ *          properties:
+ *             id:
+ *              type: number
+ *             marca: 
  *              type: number
  *             eliminado: 
  *              type: boolean 
@@ -168,7 +184,7 @@ const routes = (app) => {
  *                     $ref: '#components/schemas/productos'
  */
 
-    app.get('/productos/:id', auth,  getId)
+    app.get('/productos/:id', auth, (req, res) => getId(req, res, productos.productos))
     /**
  * @openapi
  * /productos/{id}:
@@ -331,6 +347,72 @@ const routes = (app) => {
  *                type: string
  *                example: Error!
  */
+
+    app.get('/marcas', auth, (req, res) => res.json(marcas)) 
+    /**
+ * @openapi
+ * /marcas:
+ *  get:
+ *   tags:
+ *    - Marcas:
+ *   summary: Todos los marcas
+ *   parameters: 
+ *      - in: header
+ *        name: x-access-token
+ *        schema: 
+ *          type: string
+ *        required: true  
+ *   responses:
+ *      200:
+ *       description: Retorna array de marcas
+ *       content: 
+ *          application/json:
+ *              schema:
+ *                  type: array
+ *                  items:
+ *                     $ref: '#components/schemas/marcas'
+ */
+
+    app.get('/marcas/:id', auth, (req, res) => getId(req, res, marcas.marcas))
+    /**
+ * @openapi
+ * /marcas/{id}:
+ *  get:
+ *   tags:
+ *    - Marcas:
+ *   summary: Devuelve una marca segun dado el id
+ *   parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: Agrega un id
+ *        schema:
+ *          type: integer
+ *      - name: x-access-token
+ *        in: header
+ *        schema: 
+ *          type: string
+ *        description: Ingresa tu token!
+ *        required: true
+ *   responses: 
+ *      200: 
+ *       description: Devulve la marca con el id encontrado
+ *       content: 
+ *          application/json: 
+ *            schema:
+ *               $ref: '#components/schemas/marcas'
+ *      404: 
+ *       description: Mensaje de error al no encontrar la marca
+ *       content: 
+ *          application/json:
+ *             schema: 
+ *                type: object
+ *                properties:
+ *                   error:
+ *                      type: string
+ *                       
+ */
+
     app.use((req, res) => {
         res.status(404).json({
             error: 'error'

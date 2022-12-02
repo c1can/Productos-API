@@ -33,4 +33,4 @@ let marcas = [
     }
 ]
 
-module.exports = marcas
+module.exports = { marcas }
