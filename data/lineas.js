@@ -21,4 +21,4 @@ let lineas = [
     }
 ]
 
-module.exports = lineas
+module.exports = { lineas }

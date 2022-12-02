@@ -2,8 +2,10 @@ const auth = require('../middlewares/auth')
 const { login, register } = require('../controllers/userController')
 const {getId, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
 const { addBrand, deleteBrand, updateBrand } = require('../controllers/brandController')
+const { addLinea, deleteLinea, updateLinea } = require('../controllers/lineaController')
 const productos = require('../data/productos')
 const marcas = require('../data/marcas')
+const lineas = require('../data/lineas')
 const routes = (app) => {
 
     /**
@@ -44,6 +46,21 @@ const routes = (app) => {
  *             eliminado: 
  *              type: boolean 
  *    
+ */
+
+    /**
+ * @openapi
+ * components:
+ *    schemas: 
+ *       lineas: 
+ *          type: object
+ *          properties:
+ *             id:
+ *              type: number
+ *             linea:
+ *              type: string
+ *             eliminado:
+ *              type: boolean
  */
 
 
@@ -518,6 +535,183 @@ const routes = (app) => {
  *          schema:
  *             type: string
  *             example: marca correctamente editada!  
+ *    400: 
+ *      content: 
+ *         text/plain: 
+ *             schema: 
+ *                type: string
+ *                example: Error!
+ */
+
+    //LINEAS-----------------
+
+    app.get('/lineas', auth, (req, res) => res.json(lineas)) 
+    /**
+ * @openapi
+ * /lineas:
+ *  get:
+ *   tags:
+ *    - Lineas:
+ *   summary: Todas las lineas
+ *   parameters: 
+ *      - in: header
+ *        name: x-access-token
+ *        schema: 
+ *          type: string
+ *        required: true  
+ *   responses:
+ *      200:
+ *       description: Retorna array de lineas
+ *       content: 
+ *          application/json:
+ *              schema:
+ *                  type: array
+ *                  items:
+ *                     $ref: '#components/schemas/lineas'
+ */
+
+    app.get('/lineas/:id', auth, (req, res) => getId(req, res, lineas.lineas))
+    /**
+ * @openapi
+ * /lineas/{id}:
+ *  get:
+ *   tags:
+ *    - Lineas:
+ *   summary: Devuelve una linea segun dado el id
+ *   parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: Agrega un id
+ *        schema:
+ *          type: integer
+ *      - name: x-access-token
+ *        in: header
+ *        schema: 
+ *          type: string
+ *        description: Ingresa tu token!
+ *        required: true
+ *   responses: 
+ *      200: 
+ *       description: Devulve la linea con el id encontrado
+ *       content: 
+ *          application/json: 
+ *            schema:
+ *               $ref: '#components/schemas/lineas'
+ *      404: 
+ *       description: Mensaje de error al no encontrar la linea
+ *       content: 
+ *          application/json:
+ *             schema: 
+ *                type: object
+ *                properties:
+ *                   error:
+ *                      type: string
+ *                       
+ */
+
+    app.post('/lineas', auth, addLinea)
+    /**
+ * @openapi
+ * /lineas:
+ *  post:
+ *    tags: 
+ *      - Lineas:
+ *    summary: Añadir linea
+ *    requestBody: 
+ *      required: true
+ *      content: 
+ *          application/json:
+ *           schema: 
+ *              type: object
+ *              properties:
+ *                  linea: 
+ *                     type: string
+ *    parameters: 
+ *      - name: x-access-token
+ *        in: header
+ *        description: Agrega tu token
+ *        required: true
+ *    responses: 
+ *      301: 
+ *        description: Devuelve un mensaje de exito y añade la linea
+ *        content: 
+ *          text/plain:
+ *            schema: 
+ *              type: string
+ *              example: linea añadida!
+ *      400: 
+ *        description: Mensaje de error
+ *        content: 
+ *          text/plain: 
+ *             schema:
+ *                type: string
+ *                example: No valido!
+ */
+
+    app.delete('/lineas/:id', auth, deleteLinea)
+    /**
+ * @openapi
+ * /lineas/{id}:
+ *  delete: 
+ *    tags: 
+ *     - Lineas:
+ *    summary: Eliminar una linea
+ *    parameters: 
+ *      - name: x-access-token
+ *        in: header
+ *        required: true
+ *      - name: id
+ *        in: path
+ *        required: true
+ *    responses: 
+ *      201: 
+ *        description: Devulve un mensaje de exito y elimina la linea
+ *        content: 
+ *          text/plain: 
+ *             schema: 
+ *               type: string
+ *               example: linea eliminada!
+ *      400: 
+ *       description: Mensaje de error
+ *       content:
+ *          text/plain:
+ *             schema: 
+ *                type: string
+ *                example: linea no encontrada :(
+ */
+
+    app.put('/lineas/:id', auth, updateLinea)
+    /**
+ * @openapi
+ * /lineas/{id}:
+ *  put:
+ *   tags: 
+ *    - Lineas:
+ *   summary: Editar una linea
+ *   requestBody: 
+ *      required: true
+ *      content: 
+ *        application/json:
+ *          schema:
+ *             type: object
+ *             properties:
+ *                linea: 
+ *                   type: string
+ *   parameters: 
+ *    - name: x-access-token
+ *      in: header
+ *      required: true
+ *    - name: id
+ *      in: path
+ *      required: true 
+ *   responses: 
+ *    200: 
+ *     content:
+ *       text/plain: 
+ *          schema:
+ *             type: string
+ *             example: linea correctamente editada!  
  *    400: 
  *      content: 
  *         text/plain: 
