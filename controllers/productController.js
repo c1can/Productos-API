@@ -65,8 +65,8 @@ const updateProduct = (req, res) => {
         return res.status(400).send('producto no encontrado')
     }
     
-    if(!(producto || marca || linea || precio || stock)) {
-        return res.status(400).send('Debes actualizar al menos un dato!')
+    if((marca || linea || precio || stock) === 0) {
+        return res.status(400).send('No dejes los valores en 0')
     }
 
     const edited = obj.productos.map(product => {
@@ -85,7 +85,7 @@ const updateProduct = (req, res) => {
     })
 
     obj.productos = edited
-    res.status(200).send('Producto editado')
+    res.status(200).send(`Producto no.${id} editado`)
 }
 
 module.exports = {addProduct, deleteProduct, getId, updateProduct}

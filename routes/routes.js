@@ -1,7 +1,7 @@
 const auth = require('../middlewares/auth')
 const { login, register } = require('../controllers/userController')
 const {getId, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
-const { addBrand, deleteBrand } = require('../controllers/brandController')
+const { addBrand, deleteBrand, updateBrand } = require('../controllers/brandController')
 const productos = require('../data/productos')
 const marcas = require('../data/marcas')
 const routes = (app) => {
@@ -485,6 +485,45 @@ const routes = (app) => {
  *             schema: 
  *                type: string
  *                example: marca no encontrada :(
+ */
+
+    app.put('/marcas/:id', auth, updateBrand)
+    /**
+ * @openapi
+ * /marcas/{id}:
+ *  put:
+ *   tags: 
+ *    - Marcas:
+ *   summary: Editar una marca
+ *   requestBody: 
+ *      required: true
+ *      content: 
+ *        application/json:
+ *          schema:
+ *             type: object
+ *             properties:
+ *                marca: 
+ *                   type: string
+ *   parameters: 
+ *    - name: x-access-token
+ *      in: header
+ *      required: true
+ *    - name: id
+ *      in: path
+ *      required: true 
+ *   responses: 
+ *    200: 
+ *     content:
+ *       text/plain: 
+ *          schema:
+ *             type: string
+ *             example: marca correctamente editada!  
+ *    400: 
+ *      content: 
+ *         text/plain: 
+ *             schema: 
+ *                type: string
+ *                example: Error!
  */
 
     app.use((req, res) => {

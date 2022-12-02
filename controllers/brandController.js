@@ -42,5 +42,32 @@ const deleteBrand = (req, res) => {
     res.status(201).send(`Producto no. ${+id} eliminado`)
 }
 
+const updateBrand = (req, res) => {
+    const { id } = req.params
+    const content = req.body
+    const { marca } = content
+    const match = obj.marcas.find(marca => marca.id === +id)
+    if(!match) {
+        return res.status(400).send('producto no encontrado')
+    }
+    
+    if(marca.length === 0) {
+        return res.status(400).send('Agregale otro nombre')
+    }
 
-module.exports = { addBrand, deleteBrand }
+    const edited = obj.marcas.map(brand => {
+        if(brand.id === +id) {
+            return {
+                ...brand,
+                marca: marca || brand.marca,
+            }
+        }else {
+            return brand
+        }
+    })
+
+    obj.marcas = edited
+    res.status(200).send(`Producto no.${id} editado`)
+}
+
+module.exports = { addBrand, deleteBrand, updateBrand}
