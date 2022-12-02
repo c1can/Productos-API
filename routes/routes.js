@@ -1,7 +1,7 @@
 const auth = require('../middlewares/auth')
 const { login, register } = require('../controllers/userController')
 const {getId, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
-const { addBrand } = require('../controllers/brandController')
+const { addBrand, deleteBrand } = require('../controllers/brandController')
 const productos = require('../data/productos')
 const marcas = require('../data/marcas')
 const routes = (app) => {
@@ -453,6 +453,38 @@ const routes = (app) => {
  *             schema:
  *                type: string
  *                example: No valido!
+ */
+
+    app.delete('/marcas/:id', auth, deleteBrand)
+    /**
+ * @openapi
+ * /marcas/{id}:
+ *  delete: 
+ *    tags: 
+ *     - Marcas:
+ *    summary: Eliminar una marca
+ *    parameters: 
+ *      - name: x-access-token
+ *        in: header
+ *        required: true
+ *      - name: id
+ *        in: path
+ *        required: true
+ *    responses: 
+ *      201: 
+ *        description: Devulve un mensaje de exito y elimina la marca 
+ *        content: 
+ *          text/plain: 
+ *             schema: 
+ *               type: string
+ *               example: marca eliminada!
+ *      400: 
+ *       description: Mensaje de error
+ *       content:
+ *          text/plain:
+ *             schema: 
+ *                type: string
+ *                example: marca no encontrada :(
  */
 
     app.use((req, res) => {
