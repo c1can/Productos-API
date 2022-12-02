@@ -1,6 +1,7 @@
 const auth = require('../middlewares/auth')
 const { login, register } = require('../controllers/userController')
 const {getId, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
+const { addBrand } = require('../controllers/brandController')
 const productos = require('../data/productos')
 const marcas = require('../data/marcas')
 const routes = (app) => {
@@ -348,6 +349,8 @@ const routes = (app) => {
  *                example: Error!
  */
 
+    //MARCAS -----------------
+
     app.get('/marcas', auth, (req, res) => res.json(marcas)) 
     /**
  * @openapi
@@ -411,6 +414,45 @@ const routes = (app) => {
  *                   error:
  *                      type: string
  *                       
+ */
+
+    app.post('/marcas', auth, addBrand)
+    /**
+ * @openapi
+ * /marcas:
+ *  post:
+ *    tags: 
+ *      - Marcas:
+ *    summary: Añadir marcas
+ *    requestBody: 
+ *      required: true
+ *      content: 
+ *          application/json:
+ *           schema: 
+ *              type: object
+ *              properties:
+ *                  marca: 
+ *                     type: string
+ *    parameters: 
+ *      - name: x-access-token
+ *        in: header
+ *        description: Agrega tu token
+ *        required: true
+ *    responses: 
+ *      301: 
+ *        description: Devuelve un mensaje de exito y añade la marca
+ *        content: 
+ *          text/plain:
+ *            schema: 
+ *              type: string
+ *              example: Marca añadida!
+ *      400: 
+ *        description: Mensaje de error
+ *        content: 
+ *          text/plain: 
+ *             schema:
+ *                type: string
+ *                example: No valido!
  */
 
     app.use((req, res) => {
