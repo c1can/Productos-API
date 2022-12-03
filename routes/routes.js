@@ -6,6 +6,8 @@ const { addLinea, deleteLinea, updateLinea } = require('../controllers/lineaCont
 const productos = require('../data/productos')
 const marcas = require('../data/marcas')
 const lineas = require('../data/lineas')
+const ventas = require('../data/ventas')
+const { addVenta } = require('../controllers/ventaController')
 const routes = (app) => {
 
     /**
@@ -718,6 +720,100 @@ const routes = (app) => {
  *             schema: 
  *                type: string
  *                example: Error!
+ */
+
+    //VENTAS-------------
+    app.get('/ventas', auth, (req, res) => res.json(ventas)) 
+    /**
+ * @openapi
+ * /ventas:
+ *  get:
+ *   tags:
+ *    - Ventas:
+ *   summary: Todas las ventas
+ *   parameters: 
+ *      - in: header
+ *        name: x-access-token
+ *        schema: 
+ *          type: string
+ *        required: true  
+ *   responses:
+ *      200:
+ *       description: Retorna array de las ventas efectuadas
+ *       content: 
+ *          application/json:
+ *              schema:
+ *                  type: array
+ *                  items:
+ *                   schema:
+ *                   type: object
+ *                   properties:
+ *                      id:
+ *                       type: string
+ *                      total:
+ *                       type: string
+ *                      productos:
+ *                         schema:
+ *                         type: array
+ *                         items:
+ *                            schema:
+ *                            type: object
+ *                            properties:
+ *                               producto:
+ *                                  type: number
+ *                               cantidad: 
+ *                                  type: number
+ *                 
+ */
+
+
+    app.post('/ventas', auth, addVenta)
+    /**
+ * @openapi
+ * /ventas:
+ *  post:
+ *    tags: 
+ *      - Ventas:
+ *    summary: Añadir venta
+ *    requestBody: 
+ *      required: true
+ *      content: 
+ *          application/json:
+ *           schema: 
+ *              type: object
+ *              properties:
+ *                ventas:
+ *                  type: array
+ *                  items:
+ *                      schema:
+ *                      type: object
+ *                      properties:
+ *                         producto: 
+ *                            type: number
+ *                         cantidad: 
+ *                            type: number
+ *                         
+ *                  
+ *    parameters: 
+ *      - name: x-access-token
+ *        in: header
+ *        description: Agrega tu token
+ *        required: true
+ *    responses: 
+ *      301: 
+ *        description: Devuelve un mensaje de exito y añade la venta
+ *        content: 
+ *          text/plain:
+ *            schema: 
+ *              type: string
+ *              example: venta añadida!
+ *      400: 
+ *        description: Mensaje de error
+ *        content: 
+ *          text/plain: 
+ *             schema:
+ *                type: string
+ *                example: No valido!
  */
 
     app.use((req, res) => {
