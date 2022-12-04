@@ -21,9 +21,7 @@ const addVenta = (req, res) => {
     const newVenta = ventaModel(uuid(), total, ventas)
 
     objVentas.ventas = [...objVentas.ventas, newVenta]
-
-    //console.log(ventas)
-    //console.log(total)
+    
     res.status(200).json(newVenta)
 }
 

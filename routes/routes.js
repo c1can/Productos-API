@@ -8,6 +8,8 @@ const marcas = require('../data/marcas')
 const lineas = require('../data/lineas')
 const ventas = require('../data/ventas')
 const { addVenta } = require('../controllers/ventaController')
+const { addIngreso } = require('../controllers/ingresoController')
+const ingresos = require('../data/ingresos')
 const routes = (app) => {
 
     /**
@@ -800,13 +802,89 @@ const routes = (app) => {
  *        description: Agrega tu token
  *        required: true
  *    responses: 
- *      301: 
- *        description: Devuelve un mensaje de exito y añade la venta
+ *      201: 
+ *        description: Devuelve la venta y añade la venta
  *        content: 
  *          text/plain:
  *            schema: 
  *              type: string
  *              example: venta añadida!
+ *      400: 
+ *        description: Mensaje de error
+ *        content: 
+ *          text/plain: 
+ *             schema:
+ *                type: string
+ *                example: No valido!
+ */
+
+    //INGRESOS-------------
+    app.get('/ingresos', auth, (req, res) => res.json(ingresos)) 
+    /**
+ * @openapi
+ * /ingresos:
+ *  get:
+ *   tags:
+ *    - Ingresos:
+ *   summary: Todos los ingresos
+ *   parameters: 
+ *      - in: header
+ *        name: x-access-token
+ *        schema: 
+ *          type: string
+ *        required: true  
+ *   responses:
+ *      200:
+ *       description: Retorna array de los nuevos ingresos
+ *       content: 
+ *          application/json:
+ *              schema:
+ *                  type: array
+ *                  items:
+ *                   schema:
+ *                   type: object
+ *                   properties:
+ *                      producto:
+ *                         type: number
+ *                      cantidad: 
+ *                         type: number                
+ */
+
+
+    app.post('/ingresos', auth, addIngreso)
+    /**
+ * @openapi
+ * /ingresos:
+ *  post:
+ *    tags: 
+ *      - Ingresos:
+ *    summary: Añadir ingreso
+ *    requestBody: 
+ *      required: true
+ *      content: 
+ *          application/json:
+ *             schema: 
+ *              type: object
+ *              properties:
+ *                producto:
+ *                  type: number
+ *                cantidad: 
+ *                  type: number
+ *                         
+ *                  
+ *    parameters: 
+ *      - name: x-access-token
+ *        in: header
+ *        description: Agrega tu token
+ *        required: true
+ *    responses: 
+ *      201: 
+ *        description: Devuelve un mensaje de ingreso
+ *        content: 
+ *          text/plain:
+ *             schema: 
+ *              type: string
+ *              example: ingreso añadido!
  *      400: 
  *        description: Mensaje de error
  *        content: 
