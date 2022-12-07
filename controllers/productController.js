@@ -2,6 +2,11 @@ const obj = require('../data/productos')
 const { productModel } = require('../dataModels/productModel')
 
 
+const filtered = (req, res) => {
+    const filter = obj.productos.filter(product => product.eliminado === false)
+
+    res.status(200).json(filter)
+}
 
 const getId = (req, res, arr) => {
     const {id} = req.params
@@ -88,4 +93,4 @@ const updateProduct = (req, res) => {
     res.status(200).send(`Producto no.${id} editado`)
 }
 
-module.exports = {addProduct, deleteProduct, getId, updateProduct}
+module.exports = {filtered, addProduct, deleteProduct, getId, updateProduct}

@@ -1,6 +1,6 @@
 const auth = require('../middlewares/auth')
 const { login, register } = require('../controllers/userController')
-const {getId, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
+const {filtered, getId, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
 const { addBrand, deleteBrand, updateBrand } = require('../controllers/brandController')
 const { addLinea, deleteLinea, updateLinea } = require('../controllers/lineaController')
 const productos = require('../data/productos')
@@ -189,6 +189,32 @@ const routes = (app) => {
  *   tags:
  *    - Productos:
  *   summary: Todos los productos
+ *   parameters: 
+ *      - in: header
+ *        name: x-access-token
+ *        schema: 
+ *          type: string
+ *        required: true  
+ *   responses:
+ *      200:
+ *       description: Retorna array de productos
+ *       content: 
+ *          application/json:
+ *              schema:
+ *                  type: array
+ *                  items:
+ *                     $ref: '#components/schemas/productos'
+ */
+
+    //FILTRAR LOS ELIMINADOS
+    app.get('/filtrados', auth, filtered)
+    /**
+ * @openapi
+ * /filtrados:
+ *  get:
+ *   tags:
+ *    - Productos:
+ *   summary: Todos los productos menos los eliminados
  *   parameters: 
  *      - in: header
  *        name: x-access-token
